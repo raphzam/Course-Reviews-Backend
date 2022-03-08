@@ -1,0 +1,30 @@
+config:
+  target: "http://localhost:8080/api/v1"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+      name: first artillery script
+  environments:
+    local:
+      target: "http://localhost:8080/api/v1"
+      phases:
+        - duration: 10
+          arrivalRate: 1
+  payload:
+    path: "keywords.csv"
+    fields:
+      - "url"
+
+scenarios:
+  - name: "Get courses"
+    flow:
+      - get:
+          url: "/courses"
+
+  - name: "posting courses"
+    flow:
+      - post:
+          url: "/courses"
+          json:
+            title: "load test title"
+            url: "{{ url }}"
